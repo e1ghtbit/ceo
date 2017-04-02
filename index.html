@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cereal Executive Odyssey</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+
+<link rel="stylesheet" href="interface.css"/>		<!--call my style sheet after bootstrap so I can overwrite their styles as desired -->
+
+<link type="text/css" rel="stylesheet" href="jquery.qtip.min.css"/>
+
+<link rel="stylesheet" href="bootstrap2-toggle.min.css"/>
+</head>
+<body>
+
+
+<div class="container-fluid">
+
+
+<div class="row"><!-- upper stats area -->
+	<div class="col-sm-4">
+		<div class="row">
+			<div class="col-sm-6"><h4><strong><span onmousedown="showCheats()">Cereal Executive Odyssey</span></strong></h4><small>Copyright 2016 - MirageKnight Enterprises</small></div>
+			<div class="col-sm-6" id="adminbuttons"><button class="btn btn-primary" onmousedown="manualsave()">Save</button>&nbsp;<button class="btn btn-primary" onmousedown="newgame()">New Game</button></div>
+			</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<table>
+				<tr>
+				<td><span id="year">-1</span>&nbsp;</td>
+				<td><span class="glyphicon glyphicon-calendar"></span><span id="day">-1</span>&nbsp;</td>
+				<td><span class="glyphicon glyphicon-time"></span><span id="time">-1</span></td>
+				</tr>
+				</table>
+			</div>
+			<span id="savemessage"></span>
+		</div>
+	</div>
+	
+	<div class="col-sm-4" align="center">
+		<div class="row">
+			<h3>$<span id="bank">-1</span></h3></div>
+	</div>
+		
+	<div class="col-sm-4 box" id="resources">
+		<div class="row">
+			<span id="resources_fizz">
+				<div class="col-sm-2" title="The little bits of imagination that turn dry sales pitches into art.  The fuel of the marketing department.">Fizz</div>
+				<div class="col-sm-4"><span id="fizz">-1</span><span class="glyphicon glyphicon-certificate"></span>&nbsp;(+<span id="fizzchange">0</span>/hr)</div>
+			</span>
+			<span id="resources_sparks">
+				<div class="col-sm-2" title="Your raw ideas.  Needed to brainstorm new ingredients and create new recipes.  Can be refined into marketing or research ideas as well.">Sparks</div>
+				<div class="col-sm-4" id="sparkschangecol"><span id="sparks">-1</span><span class="glyphicon glyphicon-flash"></span>&nbsp;(+<span id="sparkschange">0</span>/hr)</div>
+			</span>
+		</div>
+		<div class="row">
+			<span id="resources_tech">
+				<div class="col-sm-2" title="The engineers were lured away from the sanctity of their quiet offices to explain that tech is what makes science grow legs and walk around.">Tech</div>
+				<div class="col-sm-4"><span id="tech">-1</span><span class="glyphicon glyphicon-cog"></span>&nbsp;(+<span id="techchange">0</span>/hr)</div>
+			</span>
+			<span id="resources_stress">
+				<div class="col-sm-2" title="More employees means greater stress, sapping away your creative juices.  Find ways to unwind or risk the death of your innovation.">Stress</div>
+				<div class="col-sm-4"><span id="stress2">-1</span></div>
+			</span>
+		</div>
+	</div>
+</div>
+
+</div> <!-- end of top container -->
+
+
+<!--  -->
+<div class="container mycontainer">
+
+<div class="row pillc">
+	<ul class="nav nav-pills">
+	  <li id="nav_business" class="mypill"><a href="#">Business</a></li>
+	  <li id="nav_production" class="active mypill"><a href="#">Production</a></li>
+	  <li id="nav_creative" class="mypill"><a href="#">Creative</a></li>
+	</ul>
+</div>
+
+<div class="row">&nbsp;</div>
+
+<div id="view_production" class="row view">	<!--PRODUCTION view -->
+	<div class="col-sm-4"> <!--Reports Panel-->
+		<div id="panel_reports" class="panel panel-primary">
+		
+		<div class="panel-heading"><h4>Reports</h4><h6>Marketing department reporting in!</h6></div>
+		<div class="panel-body">
+		
+			<!-- TODO Fix all this reporting /stats stuff -->
+			<div class="row">
+				<div class="col-sm-3"><span id="pdp_boxesmade">0</span></div>
+				<div class="col-sm-9">Boxes Made</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3"><span id="pdp_boxesshipped">0</span></div>
+				<div class="col-sm-9">Boxes Shipped</div>
+			</div>
+<!--			<div class="row">
+				<div class="col-sm-3"><span id="pdp_boxesscrapped">0</span></div>
+				<div class="col-sm-9">Boxes Scrapped (overstock)</div>
+			</div>
+-->			<div class="row">
+				<div class="col-sm-3"><span id="pdp_changeinstock">0</span></div>
+				<div class="col-sm-9">Change in Stock</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">$<span id="pdp_materialcosts">0</span></div>
+				<div class="col-sm-9">Material Costs</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">$<span id="pdp_payrollcosts">0</span></div>
+				<div class="col-sm-9">Payroll Costs</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">$<span id="pdp_totalcosts">0</span></div>
+				<div class="col-sm-9">Total Costs</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">$<span id="pdp_grossreceipts">0</span></div>
+				<div class="col-sm-9">Gross Receipts</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">$<span id="pdp_netprofit">0</span></div>
+				<div class="col-sm-9">Net Profit</div>
+			</div>
+			<div class="row">&nbsp;</div>
+			<h4>Demands</h4></br>
+			<p>Child demand: <span id="dchild"></span></p>
+			<p>Teen demand: <span id="dteens"></span></p>
+			<p>Adult demand: <span id="dadults"></span></p>
+			<p>Elderly demand: <span id="delderly"></span></p>
+			<p>sum: <span id="dsum"></span></p>
+			
+		</div>
+		</div>
+	</div>
+	
+	<div class="col-sm-4"> <!-- Box production -->
+	<div id="panel_factory" class="panel panel-primary">
+		<div class="panel-heading"><h4>Cereal Production</h4><h6><br></h6></div>
+		<div class="panel-body">
+		
+		<div class="row"><div class="col-sm-12"><h4>Open Orders:</h4></div></div>
+		<div class="row">&nbsp;</div>
+		<div class="row">
+			<div class="col-sm-1">&nbsp;</div>
+			<div class="col-sm-10">
+				<div class="progress">
+					<div id="stockprogressbar2" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+					<span id="openorders">-1</span>/<span id="maxstock2">-2</span>&nbsp;(+<span id="neworders">-1</span>)</div>
+				</div>
+			</div>
+			<div class="col-sm-1">&nbsp;</div>
+			
+		</div>
+		
+		<div class="row"><div class="col-sm-12"><h4><span id="bpwarehouse">fix me plz</span></h4></div></div>
+		<div class="row">&nbsp;</div>
+		<div class="row">
+			<div class="col-sm-1">&nbsp;</div>
+			<div class="col-sm-10" id="stockprogressbar_column">
+				<div class="progress">
+					<div id="stockprogressbar1" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+					<span id="currentstock">-1</span>/<span id="maxstock">-2</span></div>
+				</div>
+			</div>
+			<div class="col-sm-1">&nbsp;</div>			
+		</div>
+
+		<div class="row"><div class="col-sm-12"><h4><span id="bpfactory">fix me plz</span></h4></div></div>
+		<div class="row">&nbsp;</div>
+		<div class="row">
+		<div class="col-sm-1">&nbsp;</div>
+		<div class="col-sm-10" id="makebox_column">
+			<button class="btn btn-custom btn-block" onmousedown="makeBox()">Make <span id="cerealname"></span> Cereal</span><br><small><span id="ef2">1</span>&nbsp;boxes - $<span id="efboxescost">-1</span></small></button>
+		</div>
+		<div class="col-sm-1">&nbsp;</div>
+<!--		<div id="popup">oh boy!</div>-->
+		</div>
+		
+<!--		<div class="row"><button onmousedown="deleteAnimatedText()">clean up animated text divs (for debug)</button></div> -->
+		<div class="row">&nbsp;</div>
+		<div class="row">
+			<div class="col-sm-12">Factory Efficiency: <span id="ef3"></span> Boxes/Hr (BPH)</div>
+		</div>
+		<div class="row" id="mascot_row">
+			<div class="col-sm-12">Mascot: <span id="mascot"></span></div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-5"><h5>Boxes Last Sold:</div>
+			<div class="col-sm-7"><span id="pdp_boxesshipped2">0</span></h5></div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<span id="bpworkers">-1</span> Workers making <span id="bpboxesday">-1</span> boxes per day
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+			Total Boxes Shipped: <span id="totalboxesshipped">-1</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+			Profit yesterday: <span id="pdp_profityesterday"></span>
+			</div>
+		</div>
+		</div> <!-- end of panel body-->
+		</div>
+	</div>
+		
+	<div class="col-sm-4"> <!-- Assembly Line -->
+	<div id="panel_assembly" class="panel panel-primary">
+		<div class="panel-heading"><h4>Assembly Line</h4><h6>Improve your factory efficiency in Boxes Per Hour (BPH)</h6></div>
+		<div class="panel-body panel_left_margin">
+		
+		<!-- Receivers -->
+		<div class="row">
+			<div class="col-sm-6">Lv. <span id="level_receivers">0</span> Receive Materials</div>
+			<div class="col-sm-6">Upgrade: <span id="next_receivers_cost">-1</span> BPH</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 box2 centered_text" id="current_receiver"></div>
+			<span id="next_receiver"></span>
+		</div>
+		
+		<!-- inspectors -->
+		<span id="inspectors">
+		<div class="row">
+			<div class="col-sm-6">Lv. <span id="level_inspectors">0</span> Inspect Materials</div>
+			<div class="col-sm-6">Upgrade: <span id="next_inspectors_cost">-1</span> BPH</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 box2 centered_text" id="current_inspector"></div>
+			<span id="next_inspector"></span>
+		</div>
+		</span>
+		
+		<!-- grinders -->
+		<span id="grinders">
+		<div class="row">
+			<div class="col-sm-6">Lv. <span id="level_grinders">0</span> Grind</div>
+			<div class="col-sm-6">Upgrade: <span id="next_grinders_cost">-1</span> BPH</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 box2 centered_text" id="current_grinder"></div>
+			<span id="next_grinder"></span>
+		</div>
+		</span>
+		
+		<!-- mixers -->
+		<div class="row">
+			<div class="col-sm-6">Lv. <span id="level_mixers">0</span> Mix Ingredients</div>
+			<div class="col-sm-6">Upgrade: <span id="next_mixers_cost">-1</span> BPH</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 box2 centered_text" id="current_mixer"></div>
+			<span id="next_mixer"></span>
+		</div>
+		
+		<!-- ovens -->
+		<div class="row">
+			<div class="col-sm-6">Lv. <span id="level_ovens">0</span> Cook</div>
+			<div class="col-sm-6">Upgrade: <span id="next_ovens_cost">-1</span> BPH</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 box2 centered_text" id="current_oven"></div>
+			<span id="next_oven"></span>
+		</div>
+		
+		<!-- dryers -->
+		<span id="dryers">
+		<div class="row">
+			<div class="col-sm-6">Lv. <span id="level_dryers">0</span> Dry</div>
+			<div class="col-sm-6">Upgrade: <span id="next_dryers_cost">-1</span> BPH</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 box2 centered_text" id="current_dryer"></div>
+			<span id="next_dryer"></span>
+		</div>
+		</span>
+		
+		<!-- toasters -->
+		<span id="toasters">
+		<div class="row">
+			<div class="col-sm-6">Lv. <span id="level_toasters">0</span> Toast</div>
+			<div class="col-sm-6">Upgrade: <span id="next_toasters_cost">-1</span> BPH</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 box2 centered_text" id="current_toaster"></div>
+			<span id="next_toaster"></span>
+		</div>
+		</span>
+		
+		<!-- frosters -->
+		<span id="frosters">
+		<div class="row">
+			<div class="col-sm-6">Lv. <span id="level_frosters">0</span> Frost</div>
+			<div class="col-sm-6">Upgrade: <span id="next_frosters_cost">-1</span> BPH</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 box2 centered_text" id="current_froster"></div>
+			<span id="next_froster"></span>
+		</div>
+		</span>
+		
+		<!-- packer -->
+		<div class="row">
+			<div class="col-sm-6">Lv. <span id="level_packers">0</span> Pack</div>
+			<div class="col-sm-6">Upgrade: <span id="next_packers_cost">-1</span> BPH</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 box2 centered_text" id="current_packer"></div>
+			<span id="next_packer"></span>
+		</div>
+		
+		<!-- shipper -->
+		<div class="row">
+			<div class="col-sm-6">Lv. <span id="level_shippers">0</span> Ship</div>
+			<div class="col-sm-6">Upgrade: <span id="next_shippers_cost">-1</span> BPH</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 box2 centered_text" id="current_shipper"></div>
+			<span id="next_shipper"></span>
+		</div>
+		
+	</div>
+	</div>
+	</div>
+
+</div>  <!-- End of Production View -->
+
+<div id="view_business" class="row view"> <!-- BUSINESS VIEW -->
+	<div class="col-sm-4"> <!-- Staffing panel -->
+		<div id="panel_staff" class="panel panel-success">
+			<div class="panel-heading"><h4>Staff</h4></div>
+			<div class="panel-body">
+			<div class="row">
+				<div class="col-sm-2"><h5><u>#</u></h5></div>
+				<div class="col-sm-8"></div>
+				<div class="col-sm-2"><h5><u>$/day</u></h5></div>
+				
+			</div>
+			
+			<div class="row row-eq-height" id="hireworkers">  <!--this class makes the row be equal height, which is handy -->
+				<div class="col-sm-2 vtext"><h4><span id="workers">-1</span></h4></div>
+				<div class="col-sm-8 pborder">
+					<div class="row row-eq-height">
+						<div class="col-sm-8 btnholder vtext"><h4>Workers - $<span id="workerswage">-1</span>/hr</h4></div>
+						<div class="col-sm-2 btnholder"><button class="btn btn-success btn-sm" onmousedown="hire(workers)">Hire</button></div>
+						<div class="col-sm-2 btnholder"><button class="btn btn-danger btn-sm" onmousedown="fire(workers)">Fire</button></div>
+					</div>
+					<div class="row">
+						Make <span id="workerproduction">y</span> boxes/hr (<span id="totalworkerproduction">-1</span> boxes/hr total)
+					</div>
+				</div>
+				<div class="col-sm-2 vtext"><h4>$<span id="workerspayroll">-1</span></h4></div>
+			</div>
+			
+			<div class="row row-eq-height" id="hiremarketers">  <!--this class makes the row be equal height, which is handy -->
+				<div class="col-sm-2 vtext"><h4><span id="marketers">-1</span></h4></div>
+				<div class="col-sm-8 pborder">
+					<div class="row row-eq-height">
+						<div class="col-sm-8 btnholder vtext"><h4>Marketers - $<span id="marketerswage">-1</span>/hr</h4></div>
+						<div class="col-sm-2 btnholder"><button class="btn btn-success btn-sm" onmousedown="hire(marketers)">Hire</button></div>
+						<div class="col-sm-2 btnholder"><button class="btn btn-danger btn-sm" onmousedown="fire(marketers)">Fire</button></div>
+					</div>
+					<div class="row">
+						Make <span id="marketerproduction">-1</span> fizz/hr (<span id="totalmarketerproduction">-1</span> fizz/hr total)
+					</div>
+				</div>
+				<div class="col-sm-2 vtext"><h4>$<span id="marketerspayroll">-1</span></h4></div>
+				
+			</div>
+			
+			<div class="row row-eq-height" id="hireengineers">  <!--this class makes the row be equal height, which is handy -->
+				<div class="col-sm-2 vtext"><h4><span id="engineers">-1</span></h4></div>
+				<div class="col-sm-8 pborder">
+					<div class="row row-eq-height">
+						<div class="col-sm-8 btnholder vtext"><h4>Engineers - $<span id="engineerswage">-1</span>/hr</h4></div>
+						<div class="col-sm-2 btnholder"><button class="btn btn-success btn-sm" onmousedown="hire(engineers)">Hire</button></div>
+						<div class="col-sm-2 btnholder"><button class="btn btn-danger btn-sm" onmousedown="fire(engineers)">Fire</button></div>
+					</div>
+					<div class="row">
+						Make <span id="engineerproduction">-1</span> tech/hr (<span id="totalengineerproduction">-1</span> tech/hr total)
+					</div>
+				</div>
+				<div class="col-sm-2 vtext"><h4>$<span id="engineerspayroll">-1</span></h4></div>
+			</div>
+			
+			<div class="row">&nbsp;</div>
+				<div class="row row-eq-height">
+				<div class="col-sm-2 vtext"><h4><span id="staff">-1</span>/<span id="maxstaff">-2</span><span class="glyphicon glyphicon-user"></span></h4></div>
+				<div class="col-sm-8"></div>
+				<div class="col-sm-2 vtext"><h4>$<span id="staffpayroll">-1</span></h4></div>
+			</div>
+			<div class="row">&nbsp;</div>
+			
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-sm-4"> <!-- Factory/Warehouse Upgrade Panel -->
+		<div id="panel_buildings" class="panel panel-success">
+			<div class="panel-heading"><h4>Buildings</h4></div>
+			<div class="panel-body panel_left_margin">
+				<span id="warehousesrow">
+				<div class="row">
+					<div class="col-sm-6">Lv. <span id="level_warehouses">0</span> Warehouse</div>
+					<div class="col-sm-6">Upgrade to <span id="next_warehouses_cost">-1</span> stock</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6 box2 centered_text" id="current_warehouse"></div>
+					<span id="next_warehouse"></span>
+				</div>
+				</span>
+				
+				<span id="factoriesrow">
+				<div class="row">&nbsp;</div>
+				
+				<div class="row">
+					<div class="col-sm-6">Lv. <span id="level_factories">0</span> Factory</div>
+					<div class="col-sm-6">Upgrade to <span id="next_factories_cost">-1</span> staff</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6 box2 centered_text" id="current_factory"></div>
+					<span id="next_factory"></span>
+				</div>
+				</span>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-sm-4"> <!-- Marketing Panel -->
+		<div id="panel_marketing" class="panel panel-success">
+			<div class="panel-heading"><h4>Marketing</h4></div>
+			<div class="panel-body">
+				<div class="row"><h4>Fizz: <span id="fizz2">-1</span><span class="glyphicon glyphicon-certificate"></span>&nbsp;(+<span id="fizzchange2">0</span>/hr)</h4>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row"><h4>Convert Sparks to Fizz</h4></div>
+				<div class="row">
+					<div class="col-sm-4 tightcols">
+						<button class="btn btn-primary btn-block tightcols" onmousedown="sparksToFizz(50)">50 <span class="glyphicon glyphicon-flash"></span>&nbsp;
+						<small><span class="glyphicon glyphicon-arrow-right" style="color:#000"></span></small> 10 <span class="glyphicon glyphicon-certificate"></span></button>
+					</div>
+					<div class="col-sm-4 tightcols">
+						<button class="btn btn-primary btn-block tightcols" onmousedown="sparksToFizz(500)">500 <span class="glyphicon glyphicon-flash"></span>&nbsp;
+						<small><span class="glyphicon glyphicon-arrow-right" style="color:#000"></span></small> 100 <span class="glyphicon glyphicon-certificate"></span></button>
+					</div>
+					<div class="col-sm-4 tightcols">
+						<button class="btn btn-primary btn-block tightcols" onmousedown="sparksToFizz(sparks.current)">ALL <span class="glyphicon glyphicon-flash"></span>&nbsp;
+						<small><span class="glyphicon glyphicon-arrow-right" style="color:#000"></span></small> <span id="s2fmax"></span> <span class="glyphicon glyphicon-certificate"></span></button>
+					</div>
+				</div>
+				<div class="row"></div>
+				<span id="buymarketstuff">&nbsp;</span>
+				<span id="campaigns"></span>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+<div id="view_creative" class="row view"> <!-- CREATIVE view -->
+<!-- stress reducers go here -->
+	<div class="col-sm-4">
+		<div id="panel_stressreductions" class="panel panel-danger">
+			<div class="panel-heading"><h4>Stress Reducers</h4></div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-sm-12">Your wallet: $<span id="wallet"></span></div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">Next paycheck: $<span id="unpaid"></span> (<span id="daystopayday"></span> days)</div>
+				</div>
+				
+				<div class="row"><h5>Buy:</h5></div>
+				<div class="row"><span id="buystuff"></span></div>
+	
+				<div class="row">&nbsp;</div>
+				<div class="row"><h5>Owned:</h5></div>
+				<span id="ownedstressreducers"></span>
+
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-4"> <!-- Recipe Panel -->
+		<div id="panel_recipe" class="panel panel-danger">
+			
+			<div class="panel-heading"><h4>Recipe</h4></div>
+			<div class="panel-body">
+			
+			<div class="row" id="sparkschangerow"><h4>Sparks: <span id="sparks2">-1</span><span class="glyphicon glyphicon-flash"></span>&nbsp;(+<span id="sparkschange2">0</span>/hr)</h4></div>
+			<div class="row">&nbsp;</div>
+			
+			<div class="row">
+				<div class="col-sm-6">Current Recipe
+				</div>
+				<div class="col-sm-6">New Recipe
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6"><span id="ingr1"></span>
+				</div>
+				<div class="col-sm-6">
+                    <div class="form-group">
+                      <select class="form-control nextingrdrops" id="nextingr1"></select>
+                    </div>
+
+
+				</div>
+			</div>
+			<div class="row" id="ingredient2row">
+				<div class="col-sm-6"><span id="ingr2"></span>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+                      <select class="form-control nextingrdrops" id="nextingr2"></select>
+                    </div>
+				</div>
+			</div>
+			<div class="row" id="ingredient3row">
+				<div class="col-sm-6"><span id="ingr3"></span>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+                      <select class="form-control nextingrdrops" id="nextingr3"></select>
+                    </div>
+				</div>
+			</div>
+			<div class="row" id="ingredient4row">
+				<div class="col-sm-6"><span id="ingr4"></span>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+                      <select class="form-control nextingrdrops" id="nextingr4"></select>
+                    </div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12 btnholder"><button class="btn btn-primary btn-block" id="recipe_complexity_button" onmousedown="unlockIngrRow();">Unlock Recipe Complexity<br>
+				Cost: <span id="nextingrrowcost"></span><span class="glyphicon glyphicon-flash"></button></div>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-12 btnholder"><button class="btn btn-primary btn-block" id="make_recipe_button" onmousedown="playerMakeRecipe();">Make New Recipe<br>
+				Cost: <span id="newrecipecost"></span><span class="glyphicon glyphicon-flash"></button></div>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-12 btnholder"><button class="btn btn-primary btn-block" id="unlock_ingredient_button" onmousedown="unlockIngr();">Unlock Random Ingredient<br>
+				Cost: <span id="nextingrcost"></span><span class="glyphicon glyphicon-flash"></button></div>
+
+			</div>
+			
+			<div class="row">&nbsp;</div>
+			<div class="row"><h5>Pantry:</h5></div>
+			<span id="ownedingredients"></span>
+			
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-sm-4">
+		<div id="panel_research" class="panel panel-danger">
+			
+			<div class="panel-heading"><h4>Research</h4></div>
+			<div class="panel-body">
+				<div class="row"><h4>Tech: <span id="tech2">-1</span><span class="glyphicon glyphicon-cog"></span>&nbsp;(+<span id="techchange2">0</span>/hr)</h4>
+				</div>
+				<div class="row">&nbsp;</div>
+				<div class="row"><h5>Convert Sparks to Tech:</h5></div>
+				<div class="row">
+					<div class="col-sm-4 tightcols">
+						<button class="btn btn-primary btn-block tightcols" onmousedown="sparksToTech(100)">100 <span class="glyphicon glyphicon-flash"></span>&nbsp;
+						<small><span class="glyphicon glyphicon-arrow-right" style="color:#000"></span></small> 10 <span class="glyphicon glyphicon-cog"></span></button>
+					</div>
+					<div class="col-sm-4 tightcols">
+						<button class="btn btn-primary btn-block tightcols" onmousedown="sparksToTech(1000)">1.0K <span class="glyphicon glyphicon-flash"></span>&nbsp;
+						<small><span class="glyphicon glyphicon-arrow-right" style="color:#000"></span></small> 100 <span class="glyphicon glyphicon-cog"></span></button>
+					</div>
+					<div class="col-sm-4 tightcols">
+						<button class="btn btn-primary btn-block tightcols" onmousedown="sparksToTech(sparks.current)">ALL <span class="glyphicon glyphicon-flash"></span>&nbsp;
+						<small><span class="glyphicon glyphicon-arrow-right" style="color:#000"></span></small> <span id="s2tmax"></span> <span class="glyphicon glyphicon-cog"></span></button>
+					</div>
+				</div>
+				
+				
+				<div class="row">&nbsp;</div>
+				<div class="row"><h5>Available Research:</h5></div>
+				<span id="buyresearchstuff"></span>
+				
+				<div class="row">&nbsp;</div>
+				<div class="row"><h5>Completed Research:</h5></div>
+				<span id="completedresearch"></span>
+			</div>
+		</div>
+	</div>
+
+</div>
+		
+</div><!-- end of fluid container -->
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="bootstrap2-toggle.min.js"></script>
+<script type="text/javascript" src="jquery.qtip.min.js"></script>
+<script type="text/javascript" src="main.js"></script>
+</body>
+</html>
