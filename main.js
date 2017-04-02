@@ -1,4 +1,3 @@
-//testing testing!
 //**********debug variables**************
 var hidestuff = 1;	//for debug, change to 1 for gameplay
 var loadOnStart = true;
@@ -1205,6 +1204,7 @@ function progress(){ //call once per day? for dev call every updateGUI; TODO add
 		unlocks.marketingpanel = 1;
 		$('#panel_marketing').show();//*
 		$('#resources_fizz').show();//*
+		$('#resources_sparks').show();//*
 	}
 	if (unlocks.marketers == 0 && pdp.profityesterday > 200){	//TODO.  Also, stretch out upgrades more?
 		unlocks.marketers = 1;
@@ -1215,6 +1215,7 @@ function progress(){ //call once per day? for dev call every updateGUI; TODO add
 		$('#nav_creative').show();//*
 		$('#panel_research').show();//*
 		$('#resources_tech').show();//*
+		$('#resources_sparks').show();//*
 	}
 	if (unlocks.engineers == 0 && pdp.profityesterday > 400){	//TODO
 		unlocks.engineers = 1;
