@@ -1,3 +1,4 @@
+//testing testing!
 //**********debug variables**************
 var hidestuff = 1;	//for debug, change to 1 for gameplay
 var loadOnStart = true;
